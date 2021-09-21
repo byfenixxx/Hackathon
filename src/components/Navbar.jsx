@@ -14,6 +14,10 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
+import ShoppingCartOutlinedIcon from '@material-ui/icons/ShoppingCartOutlined';
+import StarRoundedIcon from '@material-ui/icons/StarRounded';
+import { useHistory } from "react-router-dom";
+
 
 const useStyles = makeStyles((theme) => ({
     grow: {
@@ -29,6 +33,7 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     search: {
+
         position: 'relative',
         borderRadius: theme.shape.borderRadius,
         backgroundColor: alpha(theme.palette.common.white, 0.15),
@@ -53,6 +58,7 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: 'center',
     },
     inputRoot: {
+        width: '70vw',
         color: 'inherit',
     },
     inputInput: {
@@ -77,9 +83,12 @@ const useStyles = makeStyles((theme) => ({
             display: 'none',
         },
     },
+    toolbar: {
+        background: 'rgba(100, 100, 100, 0.15)'
+    }
 }));
 
-export default function PrimarySearchAppBar() {
+export default function Navbar() {
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -134,7 +143,7 @@ export default function PrimarySearchAppBar() {
             <MenuItem>
                 <IconButton aria-label="show 4 new mails" color="inherit">
                     <Badge badgeContent={4} color="secondary">
-                        <MailIcon />
+                        <ShoppingCartOutlinedIcon />
                     </Badge>
                 </IconButton>
                 <p>Messages</p>
@@ -142,7 +151,7 @@ export default function PrimarySearchAppBar() {
             <MenuItem>
                 <IconButton aria-label="show 11 new notifications" color="inherit">
                     <Badge badgeContent={11} color="secondary">
-                        <NotificationsIcon />
+                        <StarRoundedIcon />
                     </Badge>
                 </IconButton>
                 <p>Notifications</p>
@@ -160,11 +169,12 @@ export default function PrimarySearchAppBar() {
             </MenuItem>
         </Menu>
     );
+    const history = useHistory();
 
     return (
         <div className={classes.grow}>
-            <AppBar position="static">
-                <Toolbar>
+            <AppBar className={classes.toolbar} position="static">
+                <Toolbar >
                     <IconButton
                         edge="start"
                         className={classes.menuButton}
@@ -174,7 +184,7 @@ export default function PrimarySearchAppBar() {
                         <MenuIcon />
                     </IconButton>
                     <Typography className={classes.title} variant="h6" noWrap>
-                        Material-UI
+                        GAMEE
                     </Typography>
                     <div className={classes.search}>
                         <div className={classes.searchIcon}>
@@ -193,12 +203,16 @@ export default function PrimarySearchAppBar() {
                     <div className={classes.sectionDesktop}>
                         <IconButton aria-label="show 4 new mails" color="inherit">
                             <Badge badgeContent={4} color="secondary">
-                                <MailIcon />
+                                <ShoppingCartOutlinedIcon
+                                    onClick={() => {
+                                        history.push('/cart')
+                                    }}
+                                />
                             </Badge>
                         </IconButton>
                         <IconButton aria-label="show 17 new notifications" color="inherit">
                             <Badge badgeContent={17} color="secondary">
-                                <NotificationsIcon />
+                                <StarRoundedIcon />
                             </Badge>
                         </IconButton>
                         <IconButton
