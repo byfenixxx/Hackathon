@@ -1,0 +1,26 @@
+{
+  "products": [
+    {
+      "title": "zz",
+      "publisher": "aa",
+      "developer": "aa",
+      "year": "aa",
+      "genre": "aa",
+      "description": "aa",
+      "price": "aa",
+      "poster": "",
+      "id": 1
+    },
+    {
+      "title": "aa",
+      "publisher": "aa",
+      "developer": "aa",
+      "year": "aa",
+      "genre": "aa",
+      "description": "aa",
+      "price": "aa",
+      "poster": "",
+      "id": 2
+    }
+  ]
+}
