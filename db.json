@@ -1,17 +1,6 @@
 {
   "products": [
     {
-      "title": "zz",
-      "publisher": "aa",
-      "developer": "aa",
-      "year": "aa",
-      "genre": "aa",
-      "description": "aa",
-      "price": "aa",
-      "poster": "",
-      "id": 1
-    },
-    {
       "title": "aa",
       "publisher": "aa",
       "developer": "aa",
@@ -21,6 +10,28 @@
       "price": "aa",
       "poster": "",
       "id": 2
+    },
+    {
+      "title": "asdf",
+      "publisher": "asdHHJ",
+      "developer": "HJVJV",
+      "year": "V",
+      "genre": "GHVH",
+      "description": "GVH",
+      "price": "VHG",
+      "poster": "V",
+      "id": 3
+    },
+    {
+      "title": "asdf",
+      "publisher": "asdHHJ",
+      "developer": "HJVJV",
+      "year": "V",
+      "genre": "GHVH",
+      "description": "GVH",
+      "price": "VHG",
+      "poster": "V",
+      "id": 4
     }
   ]
 }

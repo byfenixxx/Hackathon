@@ -1,15 +1,15 @@
 import React from 'react';
+import CartTable from '../components/CartTable';
 import Navbar from '../components/Navbar'
 
-import AllProducts from '../components/AllProducts';
 
-const MainPage = () => {
+const CartPage = () => {
     return (
         <div>
             <Navbar />
-            <AllProducts />
+            <CartTable />
         </div>
     );
 };
 
-export default MainPage;
+export default CartPage;
