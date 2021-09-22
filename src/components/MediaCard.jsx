@@ -7,10 +7,15 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import Truncate from 'react-truncate';
 
 const useStyles = makeStyles({
     root: {
         maxWidth: 345,
+        backgroundSize: "cover"
+    },
+    media: {
+        height: "100%",
     },
 });
 
@@ -21,18 +26,21 @@ export default function MediaCard({ item }) {
         <Card className={classes.root}>
             <CardActionArea>
                 <CardMedia
+                    className={classes.media}
                     component="img"
                     alt="Contemplative Reptile"
-                    height="140"
-                    image="/static/images/cards/contemplative-reptile.jpg"
-                    title="Contemplative Reptile"
+                    height="300"
+                    image={item.poster}
                 />
                 <CardContent>
                     <Typography gutterBottom variant="h5" component="h2">
                         {item.title}
                     </Typography>
                     <Typography variant="body2" color="textSecondary" component="p">
-                        {item.description}
+                        <Truncate lines={3}>{item.description}</Truncate>
+                    </Typography>
+                    <Typography gutterBottom variant="h5" component="h3">
+                        {item.price} USD
                     </Typography>
                 </CardContent>
             </CardActionArea>

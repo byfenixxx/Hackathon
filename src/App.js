@@ -1,4 +1,5 @@
 import Routes from "./Routes";
+import 'react-credit-cards/es/styles-compiled.css';
 
 function App() {
   return (
