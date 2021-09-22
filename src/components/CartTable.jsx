@@ -59,7 +59,7 @@ export default function CartTable() {
                 <TableHead>
                     <TableRow>
                         <TableCell align="center" colSpan={3}>
-                            Details
+                            Ваши игры
                         </TableCell>
                         <TableCell align="right">Price</TableCell>
                     </TableRow>
