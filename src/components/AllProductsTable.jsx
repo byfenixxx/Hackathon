@@ -10,6 +10,8 @@ import Paper from '@material-ui/core/Paper';
 import { adminContext } from '../contexts/AdminContext';
 import { Button } from '@material-ui/core';
 import { Link } from "react-router-dom";
+import Truncate from 'react-truncate';
+import { height } from 'dom-helpers';
 
 const StyledTableCell = withStyles((theme) => ({
     head: {
@@ -73,9 +75,9 @@ export default function AllProductsTable() {
                                     <StyledTableCell align="right">{row.developer}</StyledTableCell>
                                     <StyledTableCell align="right">{row.year}</StyledTableCell>
                                     <StyledTableCell align="right">{row.genre}</StyledTableCell>
-                                    <StyledTableCell align="right">{row.description}</StyledTableCell>
+                                    <StyledTableCell align="right"><Truncate lines={3}>{row.description}</Truncate></StyledTableCell>
                                     <StyledTableCell align="right">{row.price}</StyledTableCell>
-                                    <StyledTableCell align="right">{row.poster}</StyledTableCell>
+                                    <StyledTableCell align="right"><img style={{height: "80px"}} src={row.poster} alt="#" /></StyledTableCell>
                                     <StyledTableCell align="right"><Button onClick={() => {deleteProduct(row.id)}} variant="contained">Delete</Button></StyledTableCell>
                                     <StyledTableCell align="right"><Link to={`/admin/edit/${row.id}`}><Button variant="contained">Edit</Button></Link></StyledTableCell>
                                 </StyledTableRow>

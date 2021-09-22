@@ -8,23 +8,25 @@ import EditPage from './pages/EditPage';
 import MainPage from './pages/MainPage';
 import PaymentPage from './pages/PaymentPage';
 import CartPage from './pages/CartPage';
+import ClientContextProvider from './contexts/ClientContext';
 
 const Routes = () => {
     return (
-        <AdminContextProvider>
-            <BrowserRouter>
-                <Switch>
-                    <Route exact path="/admin" component={AdminPage} />
-                    <Route exact path="/admin/add-new-product" component={AddNewProductPage} />
-                    <Route exact path="/main" component={MainPage} />
-                    <Route exact path="/admin/all-product-table" component={AdminAllProductsTablePage} />
-                    <Route exact path="/admin/edit/:id" component={EditPage} />
-                    <Route exact path="/payment" component={PaymentPage} />
-                    <Route exact path="/cart" component={CartPage} />
-
-                </Switch>
-            </BrowserRouter>
-        </AdminContextProvider>
+        <ClientContextProvider>
+            <AdminContextProvider>
+                <BrowserRouter>
+                    <Switch>
+                        <Route exact path="/admin" component={AdminPage} />
+                        <Route exact path="/admin/add-new-product" component={AddNewProductPage} />
+                        <Route exact path="/main" component={MainPage} />
+                        <Route exact path="/admin/all-product-table" component={AdminAllProductsTablePage} />
+                        <Route exact path="/admin/edit/:id" component={EditPage} />
+                        <Route exact path="/payment" component={PaymentPage} />
+                        <Route exact path="/cart" component={CartPage} />
+                    </Switch>
+                </BrowserRouter>
+            </AdminContextProvider>
+        </ClientContextProvider>
     );
 };
 

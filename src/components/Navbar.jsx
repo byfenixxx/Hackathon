@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { alpha, makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -17,6 +17,7 @@ import MoreIcon from '@material-ui/icons/MoreVert';
 import ShoppingCartOutlinedIcon from '@material-ui/icons/ShoppingCartOutlined';
 import StarRoundedIcon from '@material-ui/icons/StarRounded';
 import { useHistory } from "react-router-dom";
+import { clientContext } from '../contexts/ClientContext';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -169,11 +170,32 @@ export default function Navbar() {
             </MenuItem>
         </Menu>
     );
+
+
+    // search start
+    const { getProducts } = useContext(clientContext);
     const history = useHistory();
+    const [seacrhValue, setSearchValue] = useState("");
+
+    const filterProducts = (key, value) => {
+        let search = new URLSearchParams(history.location.search);
+        search.set(key, value);
+        let url = `${history.location.pathname}?${search.toString()}`;
+        history.push(url)
+        setSearchValue(search.get("q"));
+        getProducts()
+    }
+
+    let search = new URLSearchParams(history.location.search);
+    useEffect(() => {
+        setSearchValue(search.get("q") || "")
+    }, [history.location])
+
+    // search end
 
     return (
         <div className={classes.grow}>
-            <AppBar className={classes.toolbar} position="static">
+            <AppBar position="static">
                 <Toolbar >
                     <IconButton
                         edge="start"
@@ -192,6 +214,10 @@ export default function Navbar() {
                         </div>
                         <InputBase
                             placeholder="Search…"
+                            onChange={(e) => {
+                                filterProducts("q", e.target.value)
+                            }}
+                            value={seacrhValue}
                             classes={{
                                 root: classes.inputRoot,
                                 input: classes.inputInput,
