@@ -14,7 +14,7 @@ const INIT_STATE = {
 
 const reducer = (state = INIT_STATE, action) => {
     switch (action.type) {
-        case "GET_ALL_PRODUCTS":
+        case "GET_PRODUCTS":
             return { ...state, products: action.payload }
         case 'PLUS_AND_MINUS_PRODUCT_IN_CART':
             return { ...state, productsCountInCart: action.payload }
@@ -31,10 +31,12 @@ const ClientContextProvider = ({ children }) => {
     const [state, dispatch] = useReducer(reducer, INIT_STATE)
 
 
-    const getAllProducts = async () => {
-        const { data } = await axios(`${API}`);
+    const getProducts = async () => {
+        // console.log(window.location)
+        const { data } = await axios(`${API}${window.location.search}`);
+        console.log(`${API}${window.location.search}`);
         dispatch({
-            type: "GET_ALL_PRODUCTS",
+            type: "GET_PRODUCTS",
             payload: data
         })
     }
@@ -92,15 +94,12 @@ const ClientContextProvider = ({ children }) => {
 
 
     return (
-        <adminContext.Provider value={{
+        <clientContext.Provider value={{
             products: state.products,
-
-            getAllProducts,
-
-        }}
-        >
+            getProducts
+        }}>
             {children}
-        </adminContext.Provider>
+        </clientContext.Provider>
     );
 };
 
