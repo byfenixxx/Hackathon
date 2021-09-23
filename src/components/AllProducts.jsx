@@ -1,3 +1,4 @@
+import { Grid } from '@material-ui/core';
 import React, { useContext, useEffect } from 'react';
 import { clientContext } from '../contexts/ClientContext';
 import MediaCard from './MediaCard';
@@ -17,9 +18,9 @@ const AllProducts = () => {
                     <div className="content">
                         <div className="content-block">
                             {products.map((item) => (
-                                <div className="content-item" key={item.id}>
+                                <Grid xs={4} key={item.id}>
                                     <MediaCard item={item} />
-                                </div>
+                                </Grid>
                             ))}
                         </div>
                     </div>
