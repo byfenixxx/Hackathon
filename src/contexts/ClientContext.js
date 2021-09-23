@@ -69,12 +69,19 @@ const ClientContextProvider = ({ children }) => {
             payload: cart.products.length
         })
     }
+    const itemInCart = () => {
+        let cart = JSON.parse(localStorage.getItem('cart'))
+        dispatch({
+            type: 'PLUS_AND_MINUS_PRODUCT_IN_CART',
+            payload: cart.products.length
+        })
+    }
     const checkProductInCart = (id) => {
         let cart = JSON.parse(localStorage.getItem('cart'));
         if (!cart) {
             return false
         }
-        let newCart = cart.products.filter(item => item.products.id === id)
+        let newCart = cart.products.filter(item => item.product.id === id)
         return !newCart.length ? true : false;
     }
     const getCart = () => {
@@ -85,6 +92,23 @@ const ClientContextProvider = ({ children }) => {
 
         })
     }
+    const changeProductsCount = (count, id) => {
+        let cart = JSON.parse(localStorage.getItem('cart'));
+        if (!cart) {
+            return
+        }
+        cart.products = cart.products.map(item => {
+            if (item.product.id === id) {
+                item.count = count
+                item.subPrice = calcSubPriceOfProduct(item)
+            }
+            return item
+        })
+        cart.totalPrice = calcTotalPriceOfProduct(cart.products)
+        localStorage.setItem('cart', JSON.stringify(cart))
+        getCart()
+    }
+
 
     // Cart END
 
@@ -96,7 +120,10 @@ const ClientContextProvider = ({ children }) => {
     return (
         <clientContext.Provider value={{
             products: state.products,
-            getProducts
+            getProducts, plusAndMinusProductInCart, checkProductInCart, getCart,
+            productsCountInCart: state.productsCountInCart,
+            cart: state.cart, changeProductsCount,
+            itemInCart
         }}>
             {children}
         </clientContext.Provider>
