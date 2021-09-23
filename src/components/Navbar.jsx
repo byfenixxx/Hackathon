@@ -32,7 +32,9 @@ const useStyles = makeStyles((theme) => ({
         [theme.breakpoints.up('sm')]: {
             display: 'block',
         },
+        cursor: 'pointer',
     },
+
     search: {
 
         position: 'relative',
@@ -91,9 +93,13 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Navbar() {
     const classes = useStyles();
+    const { productsCountInCart } = useContext(clientContext)
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-
+    const [productIncart, setProductIncart] = React.useState(productsCountInCart)
+    useEffect(() => {
+        setProductIncart(productsCountInCart)
+    }, [productsCountInCart])
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
@@ -143,7 +149,7 @@ export default function Navbar() {
         >
             <MenuItem>
                 <IconButton aria-label="show 4 new mails" color="inherit">
-                    <Badge badgeContent={4} color="secondary">
+                    <Badge badgeContent={productIncart ? "productIncart" : "0"} color="secondary">
                         <ShoppingCartOutlinedIcon />
                     </Badge>
                 </IconButton>
@@ -151,7 +157,7 @@ export default function Navbar() {
             </MenuItem>
             <MenuItem>
                 <IconButton aria-label="show 11 new notifications" color="inherit">
-                    <Badge badgeContent={11} color="secondary">
+                    <Badge color="secondary">
                         <StarRoundedIcon />
                     </Badge>
                 </IconButton>
@@ -193,6 +199,7 @@ export default function Navbar() {
 
     // search end
 
+
     return (
         <div className={classes.grow}>
             <AppBar position="static">
@@ -205,7 +212,7 @@ export default function Navbar() {
                     >
                         <MenuIcon />
                     </IconButton>
-                    <Typography className={classes.title} variant="h6" noWrap>
+                    <Typography onClick={() => { history.push('/main') }} className={classes.title} variant="h6" noWrap>
                         GAMEE
                     </Typography>
                     <div className={classes.search}>
@@ -228,7 +235,7 @@ export default function Navbar() {
                     <div className={classes.grow} />
                     <div className={classes.sectionDesktop}>
                         <IconButton aria-label="show 4 new mails" color="inherit">
-                            <Badge badgeContent={4} color="secondary">
+                            <Badge badgeContent={productIncart ? `${productIncart}` : ""} color={productIncart ? "secondary" : "default"}>
                                 <ShoppingCartOutlinedIcon
                                     onClick={() => {
                                         history.push('/cart')
@@ -237,7 +244,7 @@ export default function Navbar() {
                             </Badge>
                         </IconButton>
                         <IconButton aria-label="show 17 new notifications" color="inherit">
-                            <Badge badgeContent={17} color="secondary">
+                            <Badge color="secondary">
                                 <StarRoundedIcon />
                             </Badge>
                         </IconButton>

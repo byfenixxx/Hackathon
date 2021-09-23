@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
@@ -17,6 +17,8 @@ import CheckCircleRoundedIcon from '@material-ui/icons/CheckCircleRounded';
 import Navbar from '../components/Navbar'
 
 import './Checkout.css'
+import { useHistory } from 'react-router';
+import { clientContext } from '../contexts/ClientContext';
 
 
 function Copyright() {
@@ -33,6 +35,11 @@ function Copyright() {
 }
 
 const useStyles = makeStyles((theme) => ({
+    goHome: {
+        position: 'relative',
+        left: "78%",
+        top: 20
+    },
     appBar: {
         position: 'relative',
 
@@ -104,6 +111,7 @@ function getStepContent(step) {
 
 export default function Checkout() {
     const classes = useStyles();
+    const { itemInCart } = useContext(clientContext)
     const [activeStep, setActiveStep] = React.useState(0);
 
     const handleNext = () => {
@@ -113,6 +121,17 @@ export default function Checkout() {
     const handleBack = () => {
         setActiveStep(activeStep - 1);
     };
+    const history = useHistory()
+    const freeCart = () => {
+        let cart = {
+            products: [],
+            totalPrice: 0,
+        }
+        localStorage.setItem('cart', JSON.stringify(cart));
+        itemInCart()
+
+
+    }
 
     return (
         <React.Fragment >
@@ -134,6 +153,11 @@ export default function Checkout() {
                             <React.Fragment>
                                 <Typography variant="h5" gutterBottom>
                                     Спасибо за сделанный заказ <CheckCircleRoundedIcon color='primary' />
+                                    <br />
+                                    <Button onClick={() => {
+                                        history.push('/main')
+                                        freeCart()
+                                    }} className={classes.goHome} color='primary' variant='contained'>На главную</Button>
                                 </Typography>
 
                             </React.Fragment>
