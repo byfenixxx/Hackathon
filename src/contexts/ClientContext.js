@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { createContext, useReducer } from 'react';
+import React, { createContext, useEffect, useReducer, useState } from 'react';
 import { calcSubPriceOfProduct, calcTotalPriceOfProduct } from '../helpers/calc';
 import { API } from '../helpers/const';
 
@@ -34,7 +34,6 @@ const ClientContextProvider = ({ children }) => {
     const getProducts = async () => {
         // console.log(window.location)
         const { data } = await axios(`${API}${window.location.search}`);
-        console.log(`${API}${window.location.search}`);
         dispatch({
             type: "GET_PRODUCTS",
             payload: data
@@ -113,6 +112,31 @@ const ClientContextProvider = ({ children }) => {
     // Cart END
 
 
+    // Pagination start
+
+    const [items, setItems] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage] = useState(3);
+
+    useEffect(() => {
+        const fetchProducts = () => {
+            const data = state.products || [];
+            setItems(data)
+        }
+        fetchProducts();
+    }, [state.products])
+
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = items.slice(indexOfFirstItem, indexOfLastItem);
+    const totalItems = items.length;
+
+    const changePage = (newPage) => {
+        setCurrentPage(newPage);
+    }
+
+
+    // Pagination end
 
 
 
@@ -123,7 +147,9 @@ const ClientContextProvider = ({ children }) => {
             getProducts, plusAndMinusProductInCart, checkProductInCart, getCart,
             productsCountInCart: state.productsCountInCart,
             cart: state.cart, changeProductsCount,
-            itemInCart
+            itemInCart, 
+            currentItems, itemsPerPage, totalItems,
+            changePage
         }}>
             {children}
         </clientContext.Provider>
