@@ -111,6 +111,18 @@ const ClientContextProvider = ({ children }) => {
 
 
     // Cart END
+    // CREATE NEW ACCOUNT AND LOGIN START
+    const createNewAccount = async (newAccount, history) => {
+        try {
+            const data = await axios.post('https://intense-retreat-64750.herokuapp.com/auth/registration', newAccount)
+            history.push('/main')
+        }
+        catch (e) {
+            alert(e.response.data.message)
+        }
+    }
+    // CREATE NEW ACCOUNT AND LOGIN END
+
 
 
 

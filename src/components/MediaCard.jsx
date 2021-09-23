@@ -55,9 +55,9 @@ export default function MediaCard({ item }) {
                     size="small"
                     color={checkProductInCart(item.id) ? "primary" : "secondary"}
                 >
-                    {checkProductInCart(item.id) ? "Add to cart " : "Added to cart"}<IconButton color={checkProductInCart(item.id) ? "primary" : "secondary"} aria-label="add to shopping cart">
-                        <AddShoppingCartIcon />
-                    </IconButton>
+                    {checkProductInCart(item.id) ? "Add to cart " : "Added to cart"}
+                    <AddShoppingCartIcon color={checkProductInCart(item.id) ? "primary" : "secondary"} />
+
                 </Button>
             </CardActions>
         </Card>
