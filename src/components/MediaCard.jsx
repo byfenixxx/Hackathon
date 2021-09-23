@@ -16,10 +16,10 @@ import { IconButton } from '@material-ui/core';
 const useStyles = makeStyles({
     root: {
         maxWidth: 345,
-        backgroundSize: "cover"
     },
     media: {
-        height: "100%",
+        height: "300px",
+        backgroundSize: 'contain',
     },
 });
 
@@ -32,10 +32,9 @@ export default function MediaCard({ item }) {
             <CardActionArea>
                 <CardMedia
                     className={classes.media}
-                    component="img"
-                    alt="Contemplative Reptile"
-                    height="300"
+                    alt="#"
                     image={item.poster}
+                    // style={{backgroundSize: "contain"}}
                 />
                 <CardContent>
                     <Typography gutterBottom variant="h5" component="h2">
