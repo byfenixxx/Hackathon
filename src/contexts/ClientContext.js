@@ -8,7 +8,8 @@ export const clientContext = createContext();
 const INIT_STATE = {
     products: null,
     productsCountInCart: JSON.parse(localStorage.getItem('cart')) ? JSON.parse(localStorage.getItem('cart')).products.length : 0,
-    cart: null
+    cart: null,
+    genres: null
 
 }
 
@@ -20,6 +21,8 @@ const reducer = (state = INIT_STATE, action) => {
             return { ...state, productsCountInCart: action.payload }
         case 'GET_CART':
             return { ...state, cart: action.payload }
+        case "GET_GENRES":
+            return { ...state, genres: action.payload }
 
         default:
             return { ...state }
@@ -39,6 +42,26 @@ const ClientContextProvider = ({ children }) => {
             payload: data
         })
     }
+
+    const getGenres = async () => {
+        const { data } = await axios(API);
+        const arr = [];
+        data.forEach(element => {
+            arr.push(element.genre)
+        });
+        const newArr = [];
+        arr.forEach(elem => {
+            let check = newArr.filter(item => item.trim() === elem.trim());
+            if (check.length === 0) {
+                newArr.push(elem)
+            }
+        })
+        dispatch({
+            type: "GET_GENRES",
+            payload: newArr
+        })
+    }
+
     // Cart START 
     const plusAndMinusProductInCart = (product) => {
         let cart = JSON.parse(localStorage.getItem('cart'))
@@ -161,7 +184,8 @@ const ClientContextProvider = ({ children }) => {
             cart: state.cart, changeProductsCount,
             itemInCart,
             currentItems, itemsPerPage, totalItems,
-            changePage
+            changePage,
+            genres: state.genres, getGenres
         }}>
             {children}
         </clientContext.Provider>

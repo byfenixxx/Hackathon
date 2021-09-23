@@ -1,32 +1,72 @@
-import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from '@material-ui/core';
-import React from 'react';
+import { Button, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from '@material-ui/core';
+import React, { useContext, useEffect, useState } from 'react';
+import { useHistory } from "react-router-dom";
+import { clientContext } from '../contexts/ClientContext';
 
 const LeftSideBar = () => {
+
+    const [price, setPrice] = useState("");
+    const [genre, setGenre] = useState("");
+    const history = useHistory();
+
+    const { getProducts, genres, getGenres } = useContext(clientContext);
+
+    const filterProducts = (key, value) => {
+        let search = new URLSearchParams(history.location.search);
+        search.set(key, value);
+        let url = `${history.location.pathname}?${search.toString()}`;
+        history.push(url);
+        setPrice(search.get("price_lte"));
+        setGenre(search.get("genre"));
+        getProducts()
+    }
+
+    let search = new URLSearchParams(history.location.search);
+
+    useEffect(() => {
+        setPrice(search.get("price_lte"));
+        setGenre(search.get("genre"));
+        getGenres();
+    }, [])
+
+    const resetFilter = () => {
+        setPrice("");
+        setGenre("");
+        history.push("/main");
+        getProducts();
+    }
+
     return (
         <div className="left-sidebar">
-        <FormControl component="fieldset">
-            <FormLabel component="legend">Цена</FormLabel>
-            <RadioGroup aria-label="gender" name="gender1">
-                <FormControlLabel value="5000" control={<Radio />} label="5000" />
-                <FormControlLabel value="10000" control={<Radio />} label="10000" />
-                <FormControlLabel value="15000" control={<Radio />} label="15000" />
-                <FormControlLabel value="20000" control={<Radio />} label="20000" />
-            </RadioGroup>
-        </FormControl>
-        <div>
             <FormControl component="fieldset">
-                <FormLabel component="legend">Бренд</FormLabel>
-                {/* <RadioGroup aria-label="gender" name="gender1" value={brand} onChange={(e) => filterProducts("brand", e.target.value)}>
-                    {
-                        brands.map(item => (
-                            < FormControlLabel key={item} value={item} control={< Radio />} label={item} />
-                        ))
-                    }
-                </RadioGroup> */}
+                <FormLabel component="legend">Цена</FormLabel>
+                <RadioGroup aria-label="gender" name="gender1" value={price} onChange={(e) => filterProducts("price_lte", e.target.value)}>
+                    <FormControlLabel value="60" control={<Radio />} label="60" />
+                    <FormControlLabel value="40" control={<Radio />} label="40" />
+                    <FormControlLabel value="20" control={<Radio />} label="20" />
+                    <FormControlLabel value="10" control={<Radio />} label="10" />
+                </RadioGroup>
             </FormControl>
+            <div>
+                {
+                    genres ? (
+                        <FormControl component="fieldset">
+                            <FormLabel component="legend">Жанр</FormLabel>
+                            <RadioGroup aria-label="gender" name="gender1" value={genre} onChange={(e) => filterProducts("genre", e.target.value)}>
+                                {
+                                    genres.map(item => (
+                                        < FormControlLabel key={item} value={item} control={< Radio />} label={item} />
+                                    ))
+                                }
+                            </RadioGroup>
+                        </FormControl>
+                    ) : (
+                        null
+                    )
+                }
+            </div>
+            <Button onClick={resetFilter}>Reset</Button>
         </div>
-        {/* <Button onClick={resetFilter}>Reset</Button> */}
-    </div>
     );
 };
 
