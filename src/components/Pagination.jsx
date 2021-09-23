@@ -29,7 +29,7 @@ const Pagination = () => {
                                 margin: "0 10px",
                                 cursor: "pointer"
                             }}
-                            >
+                        >
                             {item}
                         </li>
                     ))

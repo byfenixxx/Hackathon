@@ -8,6 +8,7 @@ import EditPage from './pages/EditPage';
 import MainPage from './pages/MainPage';
 import PaymentPage from './pages/PaymentPage';
 import CartPage from './pages/CartPage';
+import SignUpPage from './pages/SignUpPage'
 import ClientContextProvider from './contexts/ClientContext';
 
 const Routes = () => {
@@ -23,6 +24,8 @@ const Routes = () => {
                         <Route exact path="/admin/edit/:id" component={EditPage} />
                         <Route exact path="/payment" component={PaymentPage} />
                         <Route exact path="/cart" component={CartPage} />
+                        <Route exact path="/sign-up" component={SignUpPage} />
+
                     </Switch>
                 </BrowserRouter>
             </AdminContextProvider>
