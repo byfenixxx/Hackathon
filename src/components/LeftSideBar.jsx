@@ -9,7 +9,7 @@ const LeftSideBar = () => {
     const [genre, setGenre] = useState("");
     const history = useHistory();
 
-    const { getProducts, genres, getGenres } = useContext(clientContext);
+    const { getProducts, genres, getGenres, changePage, sideBarStatus } = useContext(clientContext);
 
     const filterProducts = (key, value) => {
         let search = new URLSearchParams(history.location.search);
@@ -18,7 +18,8 @@ const LeftSideBar = () => {
         history.push(url);
         setPrice(search.get("price_lte"));
         setGenre(search.get("genre"));
-        getProducts()
+        getProducts();
+        changePage(1);
     }
 
     let search = new URLSearchParams(history.location.search);
@@ -37,7 +38,7 @@ const LeftSideBar = () => {
     }
 
     return (
-        <div className="left-sidebar">
+        <div className="left-sidebar" style={sideBarStatus ? {display: "block"} : {display: "none"}}>
             <FormControl component="fieldset">
                 <FormLabel component="legend">Цена</FormLabel>
                 <RadioGroup aria-label="gender" name="gender1" value={price} onChange={(e) => filterProducts("price_lte", e.target.value)}>

@@ -9,12 +9,10 @@ const MainPage = () => {
     return (
         <div>
             <Navbar />
-            <Container>
                 <div className="main">
                     <LeftSideBar />
                     <AllProducts />
                 </div>
-            </Container>
         </div>
     );
 };
