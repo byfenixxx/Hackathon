@@ -5,8 +5,10 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /* background-image: url("https://img.8wallpapers.com/uploads/2020/09/6490e301fcbe4eebbf7da48f.jpg"); */
-  /* background-size: contain; */
+  /* background-image: url("https://wallpaperaccess.com/full/7458.jpg"); */
+  background-image: url("https://wallpaperaccess.com/full/7457.jpg");
+
+  background-size: contain;
 }
 
 code {

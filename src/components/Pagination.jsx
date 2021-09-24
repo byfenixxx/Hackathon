@@ -28,12 +28,13 @@ const Pagination = () => {
                                 listStyleType: "none",
                                 margin: "0 10px",
                                 cursor: "pointer",
-                                color: "blue",
+                                color: "yellow",
                                 textDecoration: "underline"
                             } : {
                                 listStyleType: "none",
                                 margin: "0 10px",
                                 cursor: "pointer",
+                                color: 'white'
                             }}
                         >
                             {item}
