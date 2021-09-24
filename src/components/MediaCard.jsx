@@ -16,6 +16,7 @@ import { IconButton } from '@material-ui/core';
 const useStyles = makeStyles({
     root: {
         maxWidth: 345,
+        backgroundColor: "#ffffff80"
     },
     media: {
         height: "300px",
@@ -34,13 +35,13 @@ export default function MediaCard({ item }) {
                     className={classes.media}
                     alt="#"
                     image={item.poster}
-                    // style={{backgroundSize: "contain"}}
+                // style={{backgroundSize: "contain"}}
                 />
                 <CardContent>
                     <Typography gutterBottom variant="h5" component="h2">
                         {item.title}
                     </Typography>
-                    <Typography variant="body2" color="textSecondary" component="p">
+                    <Typography style={{ color: "black" }} variant="body2" color="textSecondary" component="p">
                         <Truncate lines={3}>{item.description}</Truncate>
                     </Typography>
                     <Typography gutterBottom variant="h5" component="h3">
