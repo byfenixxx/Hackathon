@@ -19,7 +19,7 @@ const AllProducts = () => {
                     <div className="content">
                         <div className="content-block">
                             {currentItems.map((item) => (
-                                <Grid  item xs={4} key={item.id}>
+                                <Grid  item sm={4} xs={6} key={item.id}>
                                     <MediaCard item={item} />
                                 </Grid>
                             ))}

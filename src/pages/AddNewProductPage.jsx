@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react';
 import { Button, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { adminContext } from '../contexts/AdminContext';
+import { useHistory } from 'react-router';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -29,6 +30,8 @@ const AddNewProductPage = () => {
 
     const { addNewProduct } = useContext(adminContext);
 
+    const history = useHistory();
+
     function handleInputs(e) {
         let obj = {
             ...newProduct,
@@ -41,8 +44,18 @@ const AddNewProductPage = () => {
     function handleClick(e) {
         e.preventDefault();
         addNewProduct(newProduct);
+        history.push("/admin/all-product-table")
     }
 
+    function validateInputs() {
+        let isValid = true;
+        for (let i in newProduct) {
+            if (!newProduct[i]) return false
+        }
+        if (isValid) {
+            return true
+        }
+    }
 
     return (
         <div>
@@ -57,7 +70,14 @@ const AddNewProductPage = () => {
                 <TextField id="outlined-basic" value={newProduct.description} onChange={handleInputs} name="description" label="description" variant="outlined" />
                 <TextField id="outlined-basic" value={newProduct.price} onChange={handleInputs} name="price" label="price" variant="outlined" />
                 <TextField id="outlined-basic" value={newProduct.poster} onChange={handleInputs} name="poster" label="poster" variant="outlined" />
-                <Button variant="contained" onClick={handleClick}>Submit</Button>
+                <Button variant="contained" onClick={(e) => {
+                    if (!validateInputs()) {
+                        alert("Fill in all fields")
+                    } else {
+                        alert("Game successfully added")
+                        handleClick(e)
+                    }
+                }}>Submit</Button>
             </form>
         </div>
     );

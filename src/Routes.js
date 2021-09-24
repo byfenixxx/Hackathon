@@ -10,6 +10,7 @@ import PaymentPage from './pages/PaymentPage';
 import CartPage from './pages/CartPage';
 import SignUpPage from './pages/SignUpPage'
 import ClientContextProvider from './contexts/ClientContext';
+import IndexPage from './pages/IndexPage';
 
 const Routes = () => {
     return (
@@ -17,6 +18,7 @@ const Routes = () => {
             <AdminContextProvider>
                 <BrowserRouter>
                     <Switch>
+                        <Route exact path="/" component={IndexPage} />
                         <Route exact path="/admin" component={AdminPage} />
                         <Route exact path="/admin/add-new-product" component={AddNewProductPage} />
                         <Route exact path="/main" component={MainPage} />

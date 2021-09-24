@@ -9,7 +9,8 @@ const INIT_STATE = {
     products: null,
     productsCountInCart: JSON.parse(localStorage.getItem('cart')) ? JSON.parse(localStorage.getItem('cart')).products.length : 0,
     cart: null,
-    genres: null
+    genres: null,
+    sideBarStatus: false
 
 }
 
@@ -23,6 +24,8 @@ const reducer = (state = INIT_STATE, action) => {
             return { ...state, cart: action.payload }
         case "GET_GENRES":
             return { ...state, genres: action.payload }
+        case "CHANGE_SIDEBAR_STATUS":
+            return { ...state, sideBarStatus: action.payload }
 
         default:
             return { ...state }
@@ -37,6 +40,7 @@ const ClientContextProvider = ({ children }) => {
     const getProducts = async () => {
         // console.log(window.location)
         const { data } = await axios(`${API}${window.location.search}`);
+        console.log(window.location.search);
         dispatch({
             type: "GET_PRODUCTS",
             payload: data
@@ -173,8 +177,19 @@ const ClientContextProvider = ({ children }) => {
 
     // Pagination end
 
-
-
+    const changeLeftSideBarDisplayStatus = () => {
+        if (!state.sideBarStatus) {
+            dispatch({
+                type: "CHANGE_SIDEBAR_STATUS",
+                payload: true
+            })
+        } else {
+            dispatch({
+                type: "CHANGE_SIDEBAR_STATUS",
+                payload: false
+            })
+        }
+    }
 
     return (
         <clientContext.Provider value={{
@@ -185,7 +200,8 @@ const ClientContextProvider = ({ children }) => {
             itemInCart,
             currentItems, itemsPerPage, totalItems,
             changePage,
-            genres: state.genres, getGenres
+            genres: state.genres, getGenres,
+            changeLeftSideBarDisplayStatus, sideBarStatus: state.sideBarStatus
         }}>
             {children}
         </clientContext.Provider>
