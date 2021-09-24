@@ -5,23 +5,22 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* background-image: url("https://img.8wallpapers.com/uploads/2020/09/6490e301fcbe4eebbf7da48f.jpg"); */
+  /* background-size: contain; */
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-/* 
-.navbar {
-  color: black;
-} */
 
 .main {
-  margin-top: 40px;
+  padding-top: 30px;
   display: flex;
 }
 
 .content-block {
+  margin-bottom: 30px;
   display: flex;
   justify-content: space-evenly;
   flex-wrap: wrap;
@@ -34,4 +33,15 @@ code {
 .MuiAvatar-root.MuiAvatar-circular.makeStyles-avatar-2.MuiAvatar-colorDefault:hover{
   background-color: #070e3a;
   transition: 0.5s;
+}
+
+.left-sidebar {
+  margin-left: 30px;
+}
+
+@media screen and (max-width: 340px) {
+  .content-block {
+    flex-direction: column;
+    align-items: center;
+  }
 }

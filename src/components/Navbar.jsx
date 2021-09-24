@@ -89,7 +89,7 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     toolbar: {
-        background: 'rgba(100, 100, 100, 0.15)'
+        backgroundColor: 'black'
     }
 }));
 
@@ -224,9 +224,11 @@ export default function Navbar() {
     );
 
 
-    // search start
-    const { getProducts } = useContext(clientContext);
+    const { getProducts, changePage, changeLeftSideBarDisplayStatus } = useContext(clientContext);
     const history = useHistory();
+
+
+    // search start
     const [seacrhValue, setSearchValue] = useState("");
 
     const filterProducts = (key, value) => {
@@ -235,7 +237,8 @@ export default function Navbar() {
         let url = `${history.location.pathname}?${search.toString()}`;
         history.push(url)
         setSearchValue(search.get("q"));
-        getProducts()
+        changePage(1);
+        getProducts();
     }
 
     let search = new URLSearchParams(history.location.search);
@@ -249,16 +252,17 @@ export default function Navbar() {
     return (
         <div className={classes.grow}>
             <AppBar position="static">
-                <Toolbar >
+                <Toolbar className={classes.toolbar}>
                     <IconButton
                         edge="start"
                         className={classes.menuButton}
                         color="inherit"
                         aria-label="open drawer"
+                        onClick={changeLeftSideBarDisplayStatus}
                     >
                         <MenuIcon />
                     </IconButton>
-                    <Typography onClick={() => { history.push('/main') }} className={classes.title} variant="h6" noWrap>
+                    <Typography onClick={() => { history.push('/main'); getProducts() }} className={classes.title} variant="h6" noWrap>
                         GAMEE
                     </Typography>
                     <div className={classes.search}>

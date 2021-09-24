@@ -1,6 +1,6 @@
 import { Button, makeStyles, TextField } from '@material-ui/core';
 import React, { useContext, useEffect, useState } from 'react';
-import { useParams } from 'react-router';
+import { useHistory, useParams } from 'react-router';
 import { adminContext } from '../contexts/AdminContext';
 
 const useStyles = makeStyles((theme) => ({
@@ -40,6 +40,8 @@ const EditPage = () => {
         setEditedProduct(obj);
     }
 
+    const history = useHistory();
+
     return (
         <div>
             {
@@ -53,7 +55,7 @@ const EditPage = () => {
                         <TextField id="outlined-basic" value={editedProduct.description} onChange={handleInputs} name="description" label="description" variant="outlined" />
                         <TextField id="outlined-basic" value={editedProduct.price} onChange={handleInputs} name="price" label="price" variant="outlined" />
                         <TextField id="outlined-basic" value={editedProduct.poster} onChange={handleInputs} name="poster" label="poster" variant="outlined" />
-                        <Button variant="contained" onClick={() => saveEditedProduct(editedProduct)}>Submit</Button>
+                        <Button variant="contained" onClick={() => {saveEditedProduct(editedProduct); history.push("/admin/all-product-table")}}>Submit</Button>
                     </form>
                 ) : (
                     <h2>Loading</h2>

@@ -9,7 +9,9 @@ const INIT_STATE = {
     products: null,
     productsCountInCart: JSON.parse(localStorage.getItem('cart')) ? JSON.parse(localStorage.getItem('cart')).products.length : 0,
     cart: null,
-    users: null
+    users: null,
+    genres: null,
+    sideBarStatus: false
 
 }
 
@@ -23,6 +25,11 @@ const reducer = (state = INIT_STATE, action) => {
             return { ...state, cart: action.payload }
         case "GET_ALL_USERS":
             return { ...state, users: action.payload }
+        case "GET_GENRES":
+            return { ...state, genres: action.payload }
+        case "CHANGE_SIDEBAR_STATUS":
+            return { ...state, sideBarStatus: action.payload }
+
         default:
             return { ...state }
     }
@@ -36,11 +43,32 @@ const ClientContextProvider = ({ children }) => {
     const getProducts = async () => {
         // console.log(window.location)
         const { data } = await axios(`${API}${window.location.search}`);
+        console.log(window.location.search);
         dispatch({
             type: "GET_PRODUCTS",
             payload: data
         })
     }
+
+    const getGenres = async () => {
+        const { data } = await axios(API);
+        const arr = [];
+        data.forEach(element => {
+            arr.push(element.genre)
+        });
+        const newArr = [];
+        arr.forEach(elem => {
+            let check = newArr.filter(item => item.trim() === elem.trim());
+            if (check.length === 0) {
+                newArr.push(elem)
+            }
+        })
+        dispatch({
+            type: "GET_GENRES",
+            payload: newArr
+        })
+    }
+
     // Cart START 
     const plusAndMinusProductInCart = (product) => {
         let cart = JSON.parse(localStorage.getItem('cart'))
@@ -173,8 +201,19 @@ const ClientContextProvider = ({ children }) => {
 
     // Pagination end
 
-
-
+    const changeLeftSideBarDisplayStatus = () => {
+        if (!state.sideBarStatus) {
+            dispatch({
+                type: "CHANGE_SIDEBAR_STATUS",
+                payload: true
+            })
+        } else {
+            dispatch({
+                type: "CHANGE_SIDEBAR_STATUS",
+                payload: false
+            })
+        }
+    }
 
     return (
         <clientContext.Provider value={{
@@ -185,7 +224,11 @@ const ClientContextProvider = ({ children }) => {
             itemInCart,
             currentItems, itemsPerPage, totalItems,
             changePage, createNewAccount, login,
-            getAllUsers, users: state.users
+            getAllUsers, users: state.users,
+            currentPage,
+
+            genres: state.genres, getGenres,
+            changeLeftSideBarDisplayStatus, sideBarStatus: state.sideBarStatus
         }}>
             {children}
         </clientContext.Provider>
