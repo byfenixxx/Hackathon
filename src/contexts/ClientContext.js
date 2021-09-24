@@ -198,7 +198,7 @@ const ClientContextProvider = ({ children }) => {
             productsCountInCart: state.productsCountInCart,
             cart: state.cart, changeProductsCount,
             itemInCart,
-            currentItems, itemsPerPage, totalItems,
+            currentItems, itemsPerPage, totalItems, currentPage,
             changePage,
             genres: state.genres, getGenres,
             changeLeftSideBarDisplayStatus, sideBarStatus: state.sideBarStatus
