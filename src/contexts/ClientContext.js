@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { createContext, useEffect, useReducer, useState } from 'react';
 import { calcSubPriceOfProduct, calcTotalPriceOfProduct } from '../helpers/calc';
-import { API } from '../helpers/const';
+import { API, NEWAPI } from '../helpers/const';
 
 export const clientContext = createContext();
 
@@ -9,6 +9,7 @@ const INIT_STATE = {
     products: null,
     productsCountInCart: JSON.parse(localStorage.getItem('cart')) ? JSON.parse(localStorage.getItem('cart')).products.length : 0,
     cart: null,
+    users: null,
     genres: null,
     sideBarStatus: false
 
@@ -22,6 +23,8 @@ const reducer = (state = INIT_STATE, action) => {
             return { ...state, productsCountInCart: action.payload }
         case 'GET_CART':
             return { ...state, cart: action.payload }
+        case "GET_ALL_USERS":
+            return { ...state, users: action.payload }
         case "GET_GENRES":
             return { ...state, genres: action.payload }
         case "CHANGE_SIDEBAR_STATUS":
@@ -141,11 +144,32 @@ const ClientContextProvider = ({ children }) => {
     const createNewAccount = async (newAccount, history) => {
         try {
             const data = await axios.post('https://intense-retreat-64750.herokuapp.com/auth/registration', newAccount)
+            await axios.post(NEWAPI, newAccount)
             history.push('/main')
         }
         catch (e) {
             alert(e.response.data.message)
         }
+    }
+    const login = async (user, history) => {
+        try {
+            const { data } = await axios.post('https://intense-retreat-64750.herokuapp.com/auth/login', user)
+            localStorage.setItem('token', JSON.stringify(data.token))
+            localStorage.setItem('userEmail', JSON.stringify(user.email))
+
+
+
+            history.push('/main')
+        } catch (e) {
+            alert(e.response.data.message)
+        }
+    }
+    const getAllUsers = async () => {
+        const { data } = await axios(NEWAPI);
+        dispatch({
+            type: "GET_ALL_USERS",
+            payload: data
+        })
     }
     // CREATE NEW ACCOUNT AND LOGIN END
 
@@ -198,8 +222,11 @@ const ClientContextProvider = ({ children }) => {
             productsCountInCart: state.productsCountInCart,
             cart: state.cart, changeProductsCount,
             itemInCart,
-            currentItems, itemsPerPage, totalItems, currentPage,
-            changePage,
+            currentItems, itemsPerPage, totalItems,
+            changePage, createNewAccount, login,
+            getAllUsers, users: state.users,
+            currentPage,
+
             genres: state.genres, getGenres,
             changeLeftSideBarDisplayStatus, sideBarStatus: state.sideBarStatus
         }}>

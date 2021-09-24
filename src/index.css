@@ -29,9 +29,7 @@ code {
 .content-item {
   margin: 20px;
 }
-.MuiAvatar-root.MuiAvatar-circular.makeStyles-avatar-2.MuiAvatar-colorDefault{
-  background-color: #3f51b5;
-}
+
 .MuiAvatar-root.MuiAvatar-circular.makeStyles-avatar-2.MuiAvatar-colorDefault:hover{
   background-color: #070e3a;
   transition: 0.5s;

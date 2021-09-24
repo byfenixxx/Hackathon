@@ -18,6 +18,8 @@ import ShoppingCartOutlinedIcon from '@material-ui/icons/ShoppingCartOutlined';
 import StarRoundedIcon from '@material-ui/icons/StarRounded';
 import { useHistory } from "react-router-dom";
 import { clientContext } from '../contexts/ClientContext';
+import axios from 'axios';
+import { NEWAPI } from '../helpers/const';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -93,7 +95,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Navbar() {
     const classes = useStyles();
-    const { productsCountInCart } = useContext(clientContext)
+    const token = JSON.parse(localStorage.getItem("token"))
+    const { productsCountInCart, getAllUsers, users } = useContext(clientContext)
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
     const [productIncart, setProductIncart] = React.useState(productsCountInCart)
@@ -119,6 +122,25 @@ export default function Navbar() {
     const handleMobileMenuOpen = (event) => {
         setMobileMoreAnchorEl(event.currentTarget);
     };
+    useEffect(() => {
+        getAllUsers()
+    }, [])
+
+    let userOnline = JSON.parse(localStorage.getItem('userEmail'))
+    let newArr = []
+    if (users) {
+        newArr = users.filter(item => item.status === 'admin')
+    }
+    let adminToggle = false
+
+    function changeAdminStatus(user) {
+        let array = newArr.filter(item => item.email === user)
+        console.log(array)
+        array.length > 0 ? adminToggle = true : adminToggle = false
+    }
+    changeAdminStatus(userOnline)
+
+
 
     const menuId = 'primary-search-account-menu';
     const renderMenu = (
@@ -131,8 +153,32 @@ export default function Navbar() {
             open={isMenuOpen}
             onClose={handleMenuClose}
         >
-            <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-            <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+            {
+                adminToggle ?
+                    <MenuItem onClick={() => {
+                        history.push('/admin')
+                    }}>Администрация</MenuItem>
+                    : ''
+            }
+
+            <MenuItem onClick={() => {
+                history.push('/sign-up')
+            }}>Регистрация</MenuItem>
+            {
+                token ? (
+                    <MenuItem onClick={() => {
+                        let token1 = ''
+                        localStorage.setItem('token', JSON.stringify(token1))
+                        history.push('/main')
+                    }}>Выйти</MenuItem>
+
+                ) : (<MenuItem onClick={() => {
+                    history.push('/sign-in')
+                }}>Войти</MenuItem>)
+            }
+
+
+
         </Menu>
     );
 
@@ -149,11 +195,11 @@ export default function Navbar() {
         >
             <MenuItem>
                 <IconButton aria-label="show 4 new mails" color="inherit">
-                    <Badge badgeContent={productIncart ? "productIncart" : "0"} color="secondary">
+                    <Badge badgeContent={productIncart ? `${productIncart}` : ""} color={productIncart ? "secondary" : "default"}>
                         <ShoppingCartOutlinedIcon />
                     </Badge>
                 </IconButton>
-                <p>Cart</p>
+                <p>Корзина</p>
             </MenuItem>
             <MenuItem>
                 <IconButton aria-label="show 11 new notifications" color="inherit">
@@ -161,7 +207,7 @@ export default function Navbar() {
                         <StarRoundedIcon />
                     </Badge>
                 </IconButton>
-                <p>Notifications</p>
+                <p>Избранное</p>
             </MenuItem>
             <MenuItem onClick={handleProfileMenuOpen}>
                 <IconButton
@@ -172,7 +218,7 @@ export default function Navbar() {
                 >
                     <AccountCircle />
                 </IconButton>
-                <p>Profile</p>
+                <p>Ваш Аккаунт</p>
             </MenuItem>
         </Menu>
     );
