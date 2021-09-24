@@ -1,0 +1,22 @@
+{
+    "users": [
+        {
+            "email": "ibraim@mail.ru",
+            "password": "123456",
+            "status": "admin",
+            "id": 1
+        },
+        {
+            "email": "hello@mail.ru",
+            "password": "123kjkn",
+            "status": "user",
+            "id": 2
+        },
+        {
+            "email": "sanzhar@mail.ru",
+            "password": "123456",
+            "status": "admin",
+            "id": 3
+        }
+    ]
+}

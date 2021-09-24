@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -12,6 +12,9 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import ArrowBackRoundedIcon from '@material-ui/icons/ArrowBackRounded';
+import { useHistory } from 'react-router'
+import { clientContext } from '../contexts/ClientContext';
 
 function Copyright() {
     return (
@@ -44,14 +47,47 @@ const useStyles = makeStyles((theme) => ({
     submit: {
         margin: theme.spacing(3, 0, 2),
     },
+    backBtn: {
+        height: '60px',
+        width: '40px',
+        position: 'fixed',
+        left: "25%",
+        top: '13%',
+        cursor: 'pointer',
+    },
+    avatar: {
+        backgroundColor: "#3f51b5",
+        marginBottom: '10px'
+    }, root: {
+        backgroundImage: 'url(https://wallpaperaccess.com/full/7446.jpg)',
+    }
 }));
 
 export default function SignUp() {
     const classes = useStyles();
+    const history = useHistory();
+    const { createNewAccount } = useContext(clientContext)
+    const [newAccount, setNewAccount] = useState({
+        email: '',
+        password: '',
+        status: 'user'
+    })
+    function handleChange(e) {
+        let obj = {
+            ...newAccount,
+            [e.target.name]: e.target.value
+        }
+        setNewAccount(obj)
+    }
 
+    function handleClick(e) {
+        e.preventDefault()
+        createNewAccount(newAccount, history)
+    }
     return (
 
         <Container component="main" maxWidth="xs">
+            <ArrowBackRoundedIcon onClick={() => { history.push('/main') }} className={classes.backBtn} />
             <CssBaseline />
             <div className={classes.paper}>
                 <Avatar color='primary' className={classes.avatar}>
@@ -60,33 +96,12 @@ export default function SignUp() {
                 <Typography component="h1" variant="h5">
                     Регистрация
                 </Typography>
-                <form className={classes.form} noValidate>
+                <form onSubmit={handleClick} className={classes.form} noValidate>
                     <Grid container spacing={2}>
-                        <Grid item xs={12} sm={6}>
-                            <TextField
-                                autoComplete="fname"
-                                name="firstName"
-                                variant="outlined"
-                                required
-                                fullWidth
-                                id="firstName"
-                                label="Имя"
-                                autoFocus
-                            />
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                            <TextField
-                                variant="outlined"
-                                required
-                                fullWidth
-                                id="lastName"
-                                label="Фамилия"
-                                name="lastName"
-                                autoComplete="lname"
-                            />
-                        </Grid>
+
                         <Grid item xs={12}>
                             <TextField
+                                onChange={handleChange}
                                 variant="outlined"
                                 required
                                 fullWidth
@@ -98,6 +113,7 @@ export default function SignUp() {
                         </Grid>
                         <Grid item xs={12}>
                             <TextField
+                                onChange={handleChange}
                                 variant="outlined"
                                 required
                                 fullWidth
@@ -126,7 +142,7 @@ export default function SignUp() {
                     </Button>
                     <Grid container justifyContent="flex-end">
                         <Grid item>
-                            <Link href="#" variant="body2">
+                            <Link onClick={() => { history.push('/sign-in') }} variant="body2">
                                 У Вас уже есть аккаунт ? Войти
                             </Link>
                         </Grid>
