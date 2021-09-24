@@ -3,7 +3,7 @@ import { clientContext } from "../contexts/ClientContext"
 
 const Pagination = () => {
 
-    const { itemsPerPage, totalItems, changePage } = useContext(clientContext)
+    const { itemsPerPage, totalItems, changePage, currentPage } = useContext(clientContext)
     const pageNumber = [];
     for (let i = 1; i <= Math.ceil(totalItems / itemsPerPage); i++) {
         pageNumber.push(i);
@@ -24,10 +24,16 @@ const Pagination = () => {
                                 window.scrollTo(0, 0)
                             }}
                             key={item}
-                            style={{
+                            style={currentPage === item ? {
                                 listStyleType: "none",
                                 margin: "0 10px",
-                                cursor: "pointer"
+                                cursor: "pointer",
+                                color: "blue",
+                                textDecoration: "underline"
+                            } : {
+                                listStyleType: "none",
+                                margin: "0 10px",
+                                cursor: "pointer",
                             }}
                         >
                             {item}
